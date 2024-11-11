@@ -76,7 +76,7 @@ namespace DataService.Repositories
             try
             {
                 //get my entity
-                var result = await _dbSet.FirstOrDefaultAsync(x => x.Id == achievement.Id);
+                var result = await _dbSet.FirstOrDefaultAsync(x => x.DriverId == achievement.DriverId);
 
                 if (result == null)
                     return false;
