@@ -3,6 +3,7 @@ using DataService.Repositories.Interfaces;
 using Entities.DbSet;
 using Entities.Dtos.Requests;
 using Entities.Dtos.Responses;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormulaOne.Controllers
@@ -11,7 +12,8 @@ namespace FormulaOne.Controllers
     {
         public AchievementsController(
             IUnitOfWork unitOfWork, 
-            IMapper mapper) : base(unitOfWork, mapper)
+            IMapper mapper, 
+            IMediator mediator) : base(unitOfWork, mapper, mediator)
         {
         }
 
