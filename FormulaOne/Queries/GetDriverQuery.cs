@@ -3,13 +3,5 @@ using MediatR;
 
 namespace FormulaOne.Queries
 {
-    public class GetDriverQuery : IRequest<GetDriverResponse>
-    {
-        public Guid DriverId { get; }
-
-        public GetDriverQuery(Guid driverId)
-        {
-            DriverId = driverId;
-        }
-    }
+    public record GetDriverQuery(Guid DriverId) : IRequest<GetDriverResponse>;
 }

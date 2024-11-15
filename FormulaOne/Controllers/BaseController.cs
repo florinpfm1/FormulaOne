@@ -11,17 +11,17 @@ namespace FormulaOne.Controllers
     {
         protected readonly IUnitOfWork _unitOfWork;
         protected readonly IMapper _mapper;
-        protected readonly IMediator _mediator;
+        protected readonly ISender _sender;
 
         public BaseController(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IMediator mediator
+            ISender sender
             )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _mediator = mediator;
+            _sender = sender;
         }
     }
 }

@@ -12,25 +12,11 @@ namespace FormulaOne.Controllers
 {
     public class DriversController : BaseController
     {
-        
-
-        public DriversController(IUnitOfWork unitOfWork, IMapper mapper, IMediator mediator) : base(unitOfWork, mapper, mediator)
+        public DriversController(
+            IUnitOfWork unitOfWork, 
+            IMapper mapper, 
+            ISender sender) : base(unitOfWork, mapper, sender)
         {
-            
-        }
-
-        [HttpGet]
-        [Route("{driverId:Guid}")]
-        public async Task<IActionResult> GetDriver(Guid driverId)
-        {
-            var query = new GetDriverQuery(driverId);
-
-            var result = await _mediator.Send(query);
-
-            if (result == null)
-                return NotFound();
-
-            return Ok(result);
         }
 
         [HttpGet]
@@ -39,7 +25,21 @@ namespace FormulaOne.Controllers
             // Specifying the query that I have for this endpoint
             var query = new GetAllDriversQuery();
 
-            var result = await _mediator.Send(query);
+            var result = await _sender.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("{driverId:Guid}")]
+        public async Task<IActionResult> GetDriver(Guid driverId)
+        {
+            var query = new GetDriverQuery(driverId);
+
+            var result = await _sender.Send(query);
+
+            if (result == null)
+                return NotFound();
 
             return Ok(result);
         }
@@ -53,9 +53,9 @@ namespace FormulaOne.Controllers
             if(!ModelState.IsValid)
                 return BadRequest();
 
-            var command = new CreateDriverInfoRequest(driver);
+            var command = new CreateDriverCommand(driver);
 
-            var result = await _mediator.Send(command);
+            var result = await _sender.Send(command);
 
             return CreatedAtAction(nameof(GetDriver), new {driverId = result.DriverId}, result);
         }
@@ -69,9 +69,9 @@ namespace FormulaOne.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var command = new UpdateDriverInfoRequest(driver);
+            var command = new UpdateDriverCommand(driver);
 
-            var result = await _mediator.Send(command);
+            var result = await _sender.Send(command);
 
             return result ? NoContent() : BadRequest();
         }
@@ -80,9 +80,9 @@ namespace FormulaOne.Controllers
         [Route("{driverId:guid}")]
         public async Task<IActionResult> DeleteDriver(Guid driverId)
         {
-            var command = new DeleteDriverInfoRequest(driverId);
+            var command = new DeleteDriverCommand(driverId);
 
-            var result = await _mediator.Send(command);
+            var result = await _sender.Send(command);
 
             return result ? NoContent() : BadRequest();
 

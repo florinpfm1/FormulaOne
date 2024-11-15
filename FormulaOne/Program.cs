@@ -2,6 +2,8 @@
 using DataService.Data;
 using DataService.Repositories;
 using DataService.Repositories.Interfaces;
+using FormulaOne.Behaviors;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormulaOne
@@ -13,6 +15,10 @@ namespace FormulaOne
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container
+
+            // Adding Logs
+            //var services = new ServiceCollection();
+            //services.AddLogging(builder => builder.AddConsole());
 
             // Get connection string
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -33,6 +39,9 @@ namespace FormulaOne
 
             // Injecting the MediatR to our DI
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
+
+            // For behavior class for logging - will be used any generic type parameters <,>
+            builder.Services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 
             var app = builder.Build();
 

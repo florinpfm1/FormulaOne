@@ -12,8 +12,8 @@ namespace FormulaOne.Controllers
     {
         public AchievementsController(
             IUnitOfWork unitOfWork, 
-            IMapper mapper, 
-            IMediator mediator) : base(unitOfWork, mapper, mediator)
+            IMapper mapper,
+            ISender sender) : base(unitOfWork, mapper, sender)
         {
         }
 

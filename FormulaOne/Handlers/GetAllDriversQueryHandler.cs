@@ -6,12 +6,12 @@ using MediatR;
 
 namespace FormulaOne.Handlers
 {
-    public class GetAllDriversHandler : IRequestHandler<GetAllDriversQuery, IEnumerable<GetDriverResponse>>
+    public class GetAllDriversQueryHandler : IRequestHandler<GetAllDriversQuery, IEnumerable<GetDriverResponse>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetAllDriversHandler(
+        public GetAllDriversQueryHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper
             )

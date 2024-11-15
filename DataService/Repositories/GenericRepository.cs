@@ -1,5 +1,6 @@
 ﻿using DataService.Data;
 using DataService.Repositories.Interfaces;
+using Entities.DbSet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -52,5 +53,7 @@ namespace DataService.Repositories
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

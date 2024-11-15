@@ -34,27 +34,7 @@ namespace DataService.Repositories
             }
         }
 
-        public override async Task<bool> Delete(Guid id)
-        {
-            try
-            {
-                //get my entity
-                var result = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
-
-                if (result == null)
-                    return false;
-
-                result.Status = 0;
-                result.UpdatedDate = DateTime.UtcNow;
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "{Repo} Delete function error", typeof(DriverRepository));
-                throw;
-            }
-        }
+        
 
         public override async Task<bool> Update(Driver driver)
         {
@@ -83,5 +63,27 @@ namespace DataService.Repositories
             }
         }
 
-     }
+        public override async Task<bool> Delete(Guid id)
+        {
+            try
+            {
+                //get my entity
+                var result = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (result == null)
+                    return false;
+
+                result.Status = 0;
+                result.UpdatedDate = DateTime.UtcNow;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "{Repo} Delete function error", typeof(DriverRepository));
+                throw;
+            }
+        }
+
+    }
 }

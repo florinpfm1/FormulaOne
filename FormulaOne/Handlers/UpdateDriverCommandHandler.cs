@@ -6,12 +6,12 @@ using MediatR;
 
 namespace FormulaOne.Handlers
 {
-    public class UpdateDriverInfoHandler : IRequestHandler<UpdateDriverInfoRequest, bool>
+    public class UpdateDriverCommandHandler : IRequestHandler<UpdateDriverCommand, bool>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UpdateDriverInfoHandler(
+        public UpdateDriverCommandHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper
             )
@@ -20,7 +20,7 @@ namespace FormulaOne.Handlers
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(UpdateDriverInfoRequest request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateDriverCommand request, CancellationToken cancellationToken)
         {
             var result = _mapper.Map<Driver>(request.Driver);
 

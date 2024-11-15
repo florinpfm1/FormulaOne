@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using DataService.Repositories.Interfaces;
 using Entities.DbSet;
-using Entities.Dtos.Responses;
-using FormulaOne.Queries;
+using FormulaOne.Commands;
 using MediatR;
 
 namespace FormulaOne.Handlers
 {
-    public class GetDriverHandler : IRequestHandler<GetDriverQuery, GetDriverResponse>
+    public class DeleteDriverCommandHandler : IRequestHandler<DeleteDriverCommand, bool>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public GetDriverHandler(
+        public DeleteDriverCommandHandler(
             IUnitOfWork unitOfWork,
             IMapper mapper
             )
@@ -21,16 +20,17 @@ namespace FormulaOne.Handlers
             _mapper = mapper;
         }
 
-        public async Task<GetDriverResponse> Handle(GetDriverQuery request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteDriverCommand request, CancellationToken cancellationToken)
         {
             var driver = await _unitOfWork.Drivers.GetById(request.DriverId);
 
             if (driver == null)
-                return null;
+                return false;
 
-            var result = _mapper.Map<GetDriverResponse>(driver);
+            await _unitOfWork.Drivers.Delete(request.DriverId);
+            await _unitOfWork.CompleteAsync();
 
-            return result;
+            return true;
         }
     }
 }
